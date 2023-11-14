@@ -3,7 +3,7 @@ import { Control, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 
-import { Button, Dialog, Input, MagnifyingGlassSimpleSVG, mq, ScrollBox } from '@ensdomains/thorin'
+import { Button, Dialog, Input, MagnifyingGlassSimpleSVG, mq, ScrollBox } from '@ensdomains/thorin2'
 
 import DismissDialogButton from '@app/components/@atoms/DismissDialogButton/DismissDialogButton'
 import { Spacer } from '@app/components/@atoms/Spacer'
@@ -292,7 +292,7 @@ export const AddProfileRecordView = ({ control, onAdd, onClose, showDismiss }: P
   return (
     <Container>
       <Dialog.Heading title={t('steps.profile.addProfile')} />
-      <Spacer $height="6" />
+      <Spacer height="$6" />
       <Input
         label=""
         hideLabel

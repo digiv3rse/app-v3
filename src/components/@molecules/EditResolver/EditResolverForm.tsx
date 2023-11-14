@@ -2,7 +2,7 @@ import { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 
-import { RadioButton, Typography } from '@ensdomains/thorin'
+import { RadioButton, Typography } from '@ensdomains/thorin2'
 
 import { Spacer } from '@app/components/@atoms/Spacer'
 import { Outlink } from '@app/components/Outlink'
@@ -98,7 +98,7 @@ const EditResolverForm = ({
           },
         })}
       />
-      <Spacer $height="4" />
+      <Spacer height="$4" />
       <RadioButton
         label={t('input.editResolver.customLabel')}
         description={

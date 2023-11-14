@@ -5,8 +5,8 @@ import styled, { css } from 'styled-components'
 import type { Address } from 'viem'
 import { useBalance } from 'wagmi'
 
+import { BoxProps, Button, Card } from '@ensdomains/thorin'
 import {
-  Button,
   Field,
   Heading,
   Helper,
@@ -15,14 +15,12 @@ import {
   RadioButtonGroup,
   Toggle,
   Typography,
-} from '@ensdomains/thorin'
+} from '@ensdomains/thorin2'
 
 import MoonpayLogo from '@app/assets/MoonpayLogo.svg'
-import MobileFullWidth from '@app/components/@atoms/MobileFullWidth'
 import { PlusMinusControl } from '@app/components/@atoms/PlusMinusControl/PlusMinusControl'
 import { RegistrationTimeComparisonBanner } from '@app/components/@atoms/RegistrationTimeComparisonBanner/RegistrationTimeComparisonBanner'
 import { Spacer } from '@app/components/@atoms/Spacer'
-import { Card } from '@app/components/Card'
 import { ConnectButton } from '@app/components/ConnectButton'
 import { useAccountSafely } from '@app/hooks/account/useAccountSafely'
 import { useContractAddress } from '@app/hooks/chain/useContractAddress'
@@ -38,21 +36,6 @@ import {
 } from '../../types'
 import { useMoonpayRegistration } from '../../useMoonpayRegistration'
 import TemporaryPremium from './TemporaryPremium'
-
-const StyledCard = styled(Card)(
-  ({ theme }) => css`
-    max-width: 780px;
-    margin: 0 auto;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-    padding: ${theme.space['4']};
-
-    ${mq.sm.min(css`
-      padding: ${theme.space['6']} ${theme.space['18']};
-      gap: ${theme.space['6']};
-    `)}
-  `,
-)
 
 const OutlinedContainer = styled.div(
   ({ theme }) => css`
@@ -280,7 +263,7 @@ const PaymentChoice = ({
       <StyledTitle color="textTertiary" weight="bold">
         {t('steps.info.paymentMethod')}
       </StyledTitle>
-      <Spacer $height="2" />
+      <Spacer height="$2" />
       <StyledRadioButtonGroup
         value={paymentMethodChoice}
         onChange={(e) => setPaymentMethodChoice(e.target.value as PaymentMethod)}
@@ -296,16 +279,16 @@ const PaymentChoice = ({
           />
           {paymentMethodChoice === PaymentMethod.ethereum && !hasEnoughEth && (
             <>
-              <Spacer $height="4" />
+              <Spacer height="$4" />
               <Helper type="warning" alignment="horizontal">
                 {t('steps.info.notEnoughEth')}
               </Helper>
-              <Spacer $height="2" />
+              <Spacer height="$2" />
             </>
           )}
           {paymentMethodChoice === PaymentMethod.ethereum && hasEnoughEth && (
             <>
-              <Spacer $height="4" />
+              <Spacer height="$4" />
               <OutlinedContainer>
                 <OutlinedContainerTitle $name="title">
                   {t('steps.pricing.primaryName')}
@@ -317,7 +300,7 @@ const PaymentChoice = ({
                   {t('steps.pricing.primaryNameMessage')}
                 </OutlinedContainerDescription>
               </OutlinedContainer>
-              <Spacer $height="2" />
+              <Spacer height="$2" />
             </>
           )}
         </RadioButtonContainer>
@@ -337,7 +320,7 @@ const PaymentChoice = ({
           />
           {paymentMethodChoice === PaymentMethod.moonpay && (
             <>
-              <Spacer $height="4" />
+              <Spacer height="$4" />
               <InfoItems>
                 {moonpayInfoItems.map((item, idx) => (
                   <InfoItem key={item}>
@@ -346,11 +329,11 @@ const PaymentChoice = ({
                   </InfoItem>
                 ))}
               </InfoItems>
-              <Spacer $height="4" />
+              <Spacer height="$4" />
               {hasFailedMoonpayTransaction && (
                 <Helper type="error">{t('steps.info.failedMoonpayTransaction')}</Helper>
               )}
-              <Spacer $height="4" />
+              <Spacer height="$4" />
               <MoonpayContainer>
                 {t('steps.info.poweredBy')}
                 <MoonpayLogo />
@@ -376,7 +359,7 @@ export type ActionButtonProps = {
   years: number
   balance: ReturnType<typeof useBalance>['data']
   totalRequiredBalance?: bigint
-}
+} & Pick<BoxProps, 'width' | 'minWidth' | 'maxWidth'>
 
 export const ActionButton = ({
   address,
@@ -389,6 +372,7 @@ export const ActionButton = ({
   years,
   balance,
   totalRequiredBalance,
+  ...buttonProps
 }: ActionButtonProps) => {
   const { t } = useTranslation('register')
 
@@ -397,7 +381,7 @@ export const ActionButton = ({
   }
   if (hasPendingMoonpayTransaction) {
     return (
-      <Button data-testid="next-button" disabled loading>
+      <Button {...buttonProps} data-testid="next-button" disabled loading>
         {t('steps.info.processing')}
       </Button>
     )
@@ -405,6 +389,7 @@ export const ActionButton = ({
   if (hasFailedMoonpayTransaction && paymentMethodChoice === PaymentMethod.moonpay) {
     return (
       <Button
+        {...buttonProps}
         data-testid="next-button"
         onClick={() => callback({ reverseRecord, years, paymentMethodChoice })}
       >
@@ -415,6 +400,7 @@ export const ActionButton = ({
   if (paymentMethodChoice === PaymentMethod.moonpay) {
     return (
       <Button
+        {...buttonProps}
         loading={initiateMoonpayRegistrationMutation.isLoading}
         data-testid="next-button"
         onClick={() => callback({ reverseRecord, years, paymentMethodChoice })}
@@ -426,7 +412,7 @@ export const ActionButton = ({
   }
   if (typeof balance?.value !== 'bigint' || !totalRequiredBalance) {
     return (
-      <Button data-testid="next-button" disabled>
+      <Button {...buttonProps} data-testid="next-button" disabled>
         {t('loading', { ns: 'common' })}
       </Button>
     )
@@ -437,13 +423,14 @@ export const ActionButton = ({
     paymentMethodChoice === PaymentMethod.ethereum
   ) {
     return (
-      <Button data-testid="next-button" disabled>
+      <Button {...buttonProps} data-testid="next-button" disabled>
         {t('steps.pricing.insufficientBalance')}
       </Button>
     )
   }
   return (
     <Button
+      {...buttonProps}
       data-testid="next-button"
       onClick={() => callback({ reverseRecord, years, paymentMethodChoice })}
       disabled={!paymentMethodChoice}
@@ -539,7 +526,7 @@ const Pricing = ({
 
   const showPaymentChoice = !isPrimaryLoading && address
   return (
-    <StyledCard>
+    <Card maxWidth="780px" px={{ base: '$4', sm: '$18' }} margin="0 auto" alignItems="center">
       <StyledHeading>{t('heading', { name: beautifiedName })}</StyledHeading>
       <PlusMinusControl
         minValue={1}
@@ -580,23 +567,24 @@ const Pricing = ({
           }}
         />
       )}
-      <MobileFullWidth>
-        <ActionButton
-          {...{
-            address,
-            hasPendingMoonpayTransaction,
-            hasFailedMoonpayTransaction,
-            paymentMethodChoice,
-            reverseRecord,
-            callback,
-            initiateMoonpayRegistrationMutation,
-            years,
-            balance,
-            totalRequiredBalance,
-          }}
-        />
-      </MobileFullWidth>
-    </StyledCard>
+      <ActionButton
+        {...{
+          address,
+          hasPendingMoonpayTransaction,
+          hasFailedMoonpayTransaction,
+          paymentMethodChoice,
+          reverseRecord,
+          callback,
+          initiateMoonpayRegistrationMutation,
+          years,
+          balance,
+          totalRequiredBalance,
+        }}
+        width={{ base: '$full', sm: '$fit' }}
+        minWidth={{ sm: '$40' }}
+        maxWidth={{ base: '$full', sm: '$fit' }}
+      />
+    </Card>
   )
 }
 

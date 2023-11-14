@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import { useAccount, useBalance, useEnsAvatar } from 'wagmi'
 
-import { Avatar, Button, CurrencyToggle, Dialog, Helper, mq, ScrollBox } from '@ensdomains/thorin'
+import { Avatar, Button, CurrencyToggle, Dialog, Helper, mq, ScrollBox } from '@ensdomains/thorin2'
 
 import { CacheableComponent } from '@app/components/@atoms/CacheableComponent'
 import { Invoice, InvoiceItem } from '@app/components/@atoms/Invoice/Invoice'
@@ -210,8 +210,6 @@ const ExtendNames = ({ data: { names, isSelf }, dispatch, onDismiss }: Props) =>
     duration: yearsToSeconds(1),
   })
   const rentFee = priceData ? priceData.base + priceData.premium : undefined
-  const test = 10n + 10n
-  console.log('rentFee', rentFee, typeof rentFee, test, typeof test)
   const totalRentFee = rentFee ? BigInt(rentFee) * BigInt(years) : undefined
   const transactions = [
     makeTransactionItem('extendNames', { names, duration, rentPrice: totalRentFee!, isSelf }),

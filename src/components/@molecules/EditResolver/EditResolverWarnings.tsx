@@ -1,4 +1,4 @@
-import { Banner } from '@ensdomains/thorin'
+import { Banner } from '@ensdomains/thorin2'
 
 import { Spacer } from '@app/components/@atoms/Spacer'
 import useResolverEditor from '@app/hooks/useResolverEditor'
@@ -13,7 +13,7 @@ const EditResolverWarnings = ({ hasWarnings, resolverWarnings }: Props) => {
       <Banner alert="warning">
         <ul>{resolverWarnings?.map((message) => <li key={message}>- {message}</li>)}</ul>
       </Banner>
-      <Spacer $height="4" />
+      <Spacer height="$4" />
     </>
   )
 }

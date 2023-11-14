@@ -3,40 +3,22 @@ import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import { useAccount } from 'wagmi'
 
+import { Button, Card } from '@ensdomains/thorin'
 import {
   AlertSVG,
-  Button,
   CountdownCircle,
   Dialog,
   Heading,
-  mq,
   Spinner,
   Typography,
-} from '@ensdomains/thorin'
+} from '@ensdomains/thorin2'
 
 import { InnerDialog } from '@app/components/@atoms/InnerDialog'
-import MobileFullWidth from '@app/components/@atoms/MobileFullWidth'
-import { Card } from '@app/components/Card'
 import useRegistrationParams from '@app/hooks/useRegistrationParams'
 import { makeTransactionItem } from '@app/transaction-flow/transaction'
 import { useTransactionFlow } from '@app/transaction-flow/TransactionFlowProvider'
 
 import { RegistrationReducerDataItem } from '../types'
-
-const StyledCard = styled(Card)(
-  ({ theme }) => css`
-    max-width: 780px;
-    margin: 0 auto;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-    padding: ${theme.space['4']};
-
-    ${mq.sm.min(css`
-      padding: ${theme.space['6']} ${theme.space['18']};
-      gap: ${theme.space['6']};
-    `)}
-  `,
-)
 
 const ButtonContainer = styled.div(
   ({ theme }) => css`
@@ -111,19 +93,27 @@ const DialogContent = styled(Typography)(
 )
 
 const FailedButton = ({ onClick, label }: { onClick: () => void; label: string }) => (
-  <MobileFullWidth>
-    <Button color="red" onClick={onClick}>
-      {label}
-    </Button>
-  </MobileFullWidth>
+  <Button
+    color="red"
+    onClick={onClick}
+    width={{ base: '$full', sm: '$fit' }}
+    minWidth={{ sm: '$40' }}
+    maxWidth={{ base: '$full', sm: '$fit' }}
+  >
+    {label}
+  </Button>
 )
 
 const ProgressButton = ({ onClick, label }: { onClick: () => void; label: string }) => (
-  <MobileFullWidth>
-    <Button colorStyle="accentSecondary" onClick={onClick}>
-      {label}
-    </Button>
-  </MobileFullWidth>
+  <Button
+    colorStyle="accentSecondary"
+    onClick={onClick}
+    width={{ base: '$full', sm: '$fit' }}
+    minWidth={{ sm: '$40' }}
+    maxWidth={{ base: '$full', sm: '$fit' }}
+  >
+    {label}
+  </Button>
 )
 
 type Props = {
@@ -205,11 +195,15 @@ const Transactions = ({ registrationData, name, callback, onStart }: Props) => {
 
   const NormalBackButton = useMemo(
     () => (
-      <MobileFullWidth>
-        <Button onClick={() => callback({ back: true })} colorStyle="accentSecondary">
-          {t('action.back', { ns: 'common' })}
-        </Button>
-      </MobileFullWidth>
+      <Button
+        onClick={() => callback({ back: true })}
+        colorStyle="accentSecondary"
+        width={{ base: '$full', sm: '$fit' }}
+        minWidth={{ sm: '$40' }}
+        maxWidth={{ base: '$full', sm: '$fit' }}
+      >
+        {t('action.back', { ns: 'common' })}
+      </Button>
     ),
     [t, callback],
   )
@@ -226,19 +220,27 @@ const Transactions = ({ registrationData, name, callback, onStart }: Props) => {
   )
 
   let BackButton: ReactNode = (
-    <MobileFullWidth>
-      <Button onClick={() => callback({ back: true })} colorStyle="accentSecondary">
-        {t('action.back', { ns: 'common' })}
-      </Button>
-    </MobileFullWidth>
+    <Button
+      onClick={() => callback({ back: true })}
+      colorStyle="accentSecondary"
+      width={{ base: '$full', sm: '$fit' }}
+      minWidth={{ sm: '$40' }}
+      maxWidth={{ base: '$full', sm: '$fit' }}
+    >
+      {t('action.back', { ns: 'common' })}
+    </Button>
   )
 
   let ActionButton: ReactNode = (
-    <MobileFullWidth>
-      <Button data-testid="start-timer-button" onClick={makeCommitNameFlow}>
-        {t('steps.transactions.startTimer')}
-      </Button>
-    </MobileFullWidth>
+    <Button
+      data-testid="start-timer-button"
+      onClick={makeCommitNameFlow}
+      width={{ base: '$full', sm: '$fit' }}
+      minWidth={{ sm: '$40' }}
+      maxWidth={{ base: '$full', sm: '$fit' }}
+    >
+      {t('steps.transactions.startTimer')}
+    </Button>
   )
 
   if (commitComplete) {
@@ -261,14 +263,15 @@ const Transactions = ({ registrationData, name, callback, onStart }: Props) => {
     } else {
       BackButton = ResetBackButton
       ActionButton = (
-        <MobileFullWidth>
-          <Button
-            data-testid="finish-button"
-            onClick={!registerTx ? makeRegisterNameFlow : showRegisterTransaction}
-          >
-            {t('action.finish', { ns: 'common' })}
-          </Button>
-        </MobileFullWidth>
+        <Button
+          data-testid="finish-button"
+          onClick={!registerTx ? makeRegisterNameFlow : showRegisterTransaction}
+          width={{ base: '$full', sm: '$fit' }}
+          minWidth={{ sm: '$40' }}
+          maxWidth={{ base: '$full', sm: '$fit' }}
+        >
+          {t('action.finish', { ns: 'common' })}
+        </Button>
       )
     }
   } else if (commitTx?.stage) {
@@ -291,17 +294,22 @@ const Transactions = ({ registrationData, name, callback, onStart }: Props) => {
     } else if (commitTx?.stage === 'complete') {
       BackButton = ResetBackButton
       ActionButton = (
-        <MobileFullWidth>
-          <Button data-testid="wait-button" disabled suffix={<Spinner color="greyPrimary" />}>
-            {t('steps.transactions.wait')}
-          </Button>
-        </MobileFullWidth>
+        <Button
+          data-testid="wait-button"
+          disabled
+          suffix={<Spinner color="greyPrimary" />}
+          width={{ base: '$full', sm: '$fit' }}
+          minWidth={{ sm: '$40' }}
+          maxWidth={{ base: '$full', sm: '$fit' }}
+        >
+          {t('steps.transactions.wait')}
+        </Button>
       )
     }
   }
 
   return (
-    <StyledCard>
+    <Card maxWidth="780px" alignItems="center" margin="0 auto" px={{ base: '$4', sm: '$18' }}>
       <Dialog variant="blank" open={resetOpen} onDismiss={() => setResetOpen(false)}>
         <Dialog.CloseButton onClick={() => setResetOpen(false)} />
         <InnerDialog>
@@ -335,7 +343,7 @@ const Transactions = ({ registrationData, name, callback, onStart }: Props) => {
         {BackButton}
         {ActionButton}
       </ButtonContainer>
-    </StyledCard>
+    </Card>
   )
 }
 

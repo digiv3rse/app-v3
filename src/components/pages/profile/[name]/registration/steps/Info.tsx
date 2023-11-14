@@ -1,29 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 
-import { Button, Heading, mq, Typography } from '@ensdomains/thorin'
+import { Button, Card } from '@ensdomains/thorin'
+import { Heading, mq, Typography } from '@ensdomains/thorin2'
 
-import MobileFullWidth from '@app/components/@atoms/MobileFullWidth'
-import { Card } from '@app/components/Card'
 import { useEstimateFullRegistration } from '@app/hooks/gasEstimation/useEstimateRegistration'
 
 import FullInvoice from '../FullInvoice'
 import { RegistrationReducerDataItem } from '../types'
-
-const StyledCard = styled(Card)(
-  ({ theme }) => css`
-    max-width: 780px;
-    margin: 0 auto;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-    padding: ${theme.space['4']};
-
-    ${mq.sm.min(css`
-      padding: ${theme.space['6']} ${theme.space['18']};
-      gap: ${theme.space['6']};
-    `)}
-  `,
-)
 
 const InfoItems = styled.div(
   ({ theme }) => css`
@@ -112,7 +96,7 @@ const Info = ({ registrationData, name, callback, onProfileClick }: Props) => {
   })
 
   return (
-    <StyledCard>
+    <Card maxWidth="780px" margin="0 auto" px={{ base: '$4', sm: '$18' }} alignItems="center">
       <Heading>{t('steps.info.heading')}</Heading>
       <Typography>{t('steps.info.subheading')}</Typography>
       <InfoItems>
@@ -132,18 +116,26 @@ const Info = ({ registrationData, name, callback, onProfileClick }: Props) => {
         </ProfileButton>
       )}
       <ButtonContainer>
-        <MobileFullWidth>
-          <Button colorStyle="accentSecondary" onClick={() => callback({ back: true })}>
-            {t('action.back', { ns: 'common' })}
-          </Button>
-        </MobileFullWidth>
-        <MobileFullWidth>
-          <Button data-testid="next-button" onClick={() => callback({ back: false })}>
-            {t('action.begin', { ns: 'common' })}
-          </Button>
-        </MobileFullWidth>
+        <Button
+          colorStyle="accentSecondary"
+          onClick={() => callback({ back: true })}
+          width={{ base: '$full', sm: '$fit' }}
+          minWidth={{ sm: '$40' }}
+          maxWidth={{ base: '$full', sm: '$fit' }}
+        >
+          {t('action.back', { ns: 'common' })}
+        </Button>
+        <Button
+          data-testid="next-button"
+          onClick={() => callback({ back: false })}
+          width={{ base: '$full', sm: '$fit' }}
+          minWidth={{ sm: '$40' }}
+          maxWidth={{ base: '$full', sm: '$fit' }}
+        >
+          {t('action.begin', { ns: 'common' })}
+        </Button>
       </ButtonContainer>
-    </StyledCard>
+    </Card>
   )
 }
 

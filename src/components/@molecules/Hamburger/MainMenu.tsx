@@ -10,7 +10,7 @@ import {
   Spinner,
   Typography,
   WalletSVG,
-} from '@ensdomains/thorin'
+} from '@ensdomains/thorin2'
 
 import SocialDiscord from '@app/assets/social/SocialDiscord.svg'
 import SocialDiscourse from '@app/assets/social/SocialDiscourse.svg'
@@ -21,7 +21,7 @@ import SocialMirrorColour from '@app/assets/social/SocialMirrorColour.svg'
 import SocialTwitter from '@app/assets/social/SocialTwitter.svg'
 import SocialYoutube from '@app/assets/social/SocialYoutube.svg'
 import BaseLink from '@app/components/@atoms/BaseLink'
-import { SocialIcon } from '@app/components/SocialIcon'
+import { SocialIcon } from '@app/components/SocialIcon/SocialIcon'
 import { useChainName } from '@app/hooks/chain/useChainName'
 import { useGasPrice } from '@app/hooks/chain/useGasPrice'
 import { routes } from '@app/routes'

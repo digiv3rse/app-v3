@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 import { match, P } from 'ts-pattern'
 
-import { Button, Dialog, Input, mq, Typography } from '@ensdomains/thorin'
+import { Button, Dialog, Input, mq, Typography } from '@ensdomains/thorin2'
 
 import { InnerDialog } from '@app/components/@atoms/InnerDialog'
 import { Spacer } from '@app/components/@atoms/Spacer'
@@ -89,7 +89,7 @@ export const EarnifiDialog = ({ name, open, onDismiss }: Props) => {
                 }}
               />
             </Typography>
-            <Spacer $height="3" />
+            <Spacer height="$3" />
             <Input
               type="email"
               id="email"
@@ -103,7 +103,7 @@ export const EarnifiDialog = ({ name, open, onDismiss }: Props) => {
               })}
               error={errors.email?.message}
             />
-            <Spacer $height="3" />
+            <Spacer height="$3" />
             <Dialog.Footer
               leading={
                 <Button onClick={_onDismiss} colorStyle="accentSecondary">

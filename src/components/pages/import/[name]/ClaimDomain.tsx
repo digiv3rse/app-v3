@@ -5,7 +5,7 @@ import type { Address } from 'viem'
 import { useAccount } from 'wagmi'
 
 import { getDnsImportData } from '@ensdomains/ensjs/dns'
-import { Helper, Typography } from '@ensdomains/thorin'
+import { Helper, Typography } from '@ensdomains/thorin2'
 
 import BaseLink from '@app/components/@atoms/BaseLink'
 import { Spacer } from '@app/components/@atoms/Spacer'
@@ -167,17 +167,17 @@ export const ClaimDomain = ({
   return (
     <Container>
       <Typography fontVariant="extraLargeBold">{t('claimDomain.title')}</Typography>
-      <Spacer $height="4" />
+      <Spacer height="$4" />
       <GreyBox>
         <Typography>{t('claimDomain.dnsOwner')}</Typography>
         <NamePillWithAddress name={name} address={address || ''} />
       </GreyBox>
-      <Spacer $height="4" />
+      <Spacer height="$4" />
       <GreyBox>
         <Typography>{t('claimDomain.networkEst')}</Typography>
         <Typography>{gasEstimate?.gasCostEth?.toString()?.substring(0, 6)} ETH</Typography>
       </GreyBox>
-      <Spacer $height="4" />
+      <Spacer height="$4" />
       {syncWarning ? (
         <Helper type="warning" style={{ textAlign: 'center' }}>
           <Typography>{t('claimDomain.syncWarning')}</Typography>
@@ -187,7 +187,7 @@ export const ClaimDomain = ({
       )}
       {pendingTransaction && (
         <>
-          <Spacer $height="5" />
+          <Spacer height="$5" />
           <Helper type="info" style={{ textAlign: 'center' }}>
             <StyledTypography>
               {t('claimDomain.pendingTransactionPre')}{' '}
@@ -197,13 +197,13 @@ export const ClaimDomain = ({
           </Helper>
         </>
       )}
-      <Spacer $height="5" />
+      <Spacer height="$5" />
       <Steps
         {...{
           stepStatus: ['completed', 'completed', 'inProgress', 'notStarted'],
         }}
       />
-      <Spacer $height="5" />
+      <Spacer height="$5" />
       <ButtonContainer>
         <CheckButton
           size="small"
