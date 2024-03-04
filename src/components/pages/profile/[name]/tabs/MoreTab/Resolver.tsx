@@ -1,13 +1,16 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { css } from 'styled-components'
 
-import { Typography, mq } from '@ensdomains/thorin'
+import { Tag, Typography, mq } from '@ensdomains/thorin'
 
 import { cacheableComponentStyles } from '@app/components/@atoms/CacheableComponent'
 import { DisabledButtonWithTooltip } from '@app/components/@molecules/DisabledButtonWithTooltip'
 import RecordItem from '@app/components/RecordItem'
 import { useHasGlobalError } from '@app/hooks/errors/useHasGlobalError'
+import { useChainId } from '@app/hooks/useChainId'
 import { useTransactionFlow } from '@app/transaction-flow/TransactionFlowProvider'
+import { NAMESYS_RESOLVERS } from '@app/utils/constants'
 
 import { TabWrapper } from '../../../TabWrapper'
 
@@ -74,7 +77,7 @@ const Resolver = ({
   isCachedData: boolean
 }) => {
   const { t } = useTranslation('profile')
-
+  const chainId = useChainId()
   const hasGlobalError = useHasGlobalError()
 
   const { prepareDataInput } = useTransactionFlow()
@@ -85,6 +88,14 @@ const Resolver = ({
     })
   }
 
+  const isNameSysResolver = resolverAddress === NAMESYS_RESOLVERS[`${chainId}`][0]
+  const [resolverAddressType, tone] = useMemo(() => {
+    if (isNameSysResolver) {
+      return ['namesys', 'greySecondary'] as const
+    }
+    return ['', 'greySecondary'] as const
+  }, [isNameSysResolver])
+
   return (
     <Container $isCached={isCachedData}>
       <HeadingContainer>
@@ -92,6 +103,9 @@ const Resolver = ({
           <Typography color="text" fontVariant="headingFour" weight="bold">
             {t('tabs.more.resolver.label')}
           </Typography>
+          {isNameSysResolver && (
+            <Tag colorStyle={tone}>{t(`tabs.more.resolver.${resolverAddressType}`)}</Tag>
+          )}
         </InnerHeading>
         {canEdit && !hasGlobalError && (
           <>
