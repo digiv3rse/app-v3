@@ -3,7 +3,9 @@ import { Address } from 'viem'
 
 import { Typography } from '@ensdomains/thorin'
 
+import { Name } from '@app/components/@atoms/Name2/Name'
 import { AvatarWithZorb } from '@app/components/AvatarWithZorb'
+import { useRemPixelValue } from '@app/hooks/dom/useRemPixelValue'
 import { usePrimaryName } from '@app/hooks/ensjs/public/usePrimaryName'
 import { QuerySpace } from '@app/types'
 import { shortenAddress } from '@app/utils/utils'
@@ -20,6 +22,8 @@ const Container = styled.div(
 
 const TextContainer = styled.div(
   () => css`
+    flex: 1;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -41,6 +45,7 @@ type Props = {
   subtitle?: string
   size?: QuerySpace
   shortenAddressAsTitle?: boolean
+  maxWidth?: number
 }
 
 export const AvatarWithIdentifier = ({
@@ -49,6 +54,7 @@ export const AvatarWithIdentifier = ({
   subtitle,
   size = '10',
   shortenAddressAsTitle = true,
+  maxWidth,
 }: Props) => {
   const primary = usePrimaryName({
     address,
@@ -61,6 +67,8 @@ export const AvatarWithIdentifier = ({
 
   const isTitleFullAddress = !shortenAddressAsTitle && !_name
 
+  const remPixelValue = useRemPixelValue()
+
   return (
     <Container>
       <AvatarWithZorb label={_title} address={address} name={_name} size={size} />
@@ -68,8 +76,8 @@ export const AvatarWithIdentifier = ({
         {isTitleFullAddress ? (
           <AddressTitleContainer data-testid="avatar-label-title">{_title}</AddressTitleContainer>
         ) : (
-          <Typography fontVariant="bodyBold" ellipsis data-testid="avatar-label-title">
-            {_title}
+          <Typography fontVariant="bodyBold" data-testid="avatar-label-title">
+            <Name maxWidth={maxWidth! - 3 * remPixelValue}>{_title}</Name>
           </Typography>
         )}
         {_subtitle && (
